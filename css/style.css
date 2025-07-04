@@ -1,3 +1,51 @@
+.sticky-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #333;
+    color: #fff;
+    z-index: 1000;
+}
+
+.sticky-nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.sticky-nav ul li {
+    position: relative
+}
+
+.sticky-nav ul li button {
+    display: block;
+    background: none;
+    border: none;
+    padding: 1rem;
+    color: #fff;
+    font: inherit;
+    cursor: pointer;
+    text-align: center;
+}
+
+.sticky-nav ul li:hover {
+    background: #444;
+    display: block;
+}
+
+.sticky-nav .dropdown {
+    position: relative;
+    display: inline;
+}
+
+.sticky-nav .brand {
+    padding: 1rem 1.25 rem;
+    font-weight: 700;
+}
+
 body {
     background-color: beige;
 }
@@ -14,7 +62,6 @@ body {
     color: #000;
     font-weight: bold;
 }
-
 
 
 h1 {
