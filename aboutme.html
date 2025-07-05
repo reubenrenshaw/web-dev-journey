@@ -1,34 +1,50 @@
 <!DOCTYPE html>
-<html lang = "en">
+<html translate="no" lang="en">
     <head>
         <meta charset = "UTF-8">
-        <meta name = "viewport" content ="width = device - width, initial-scale = 1.0">
+        <meta name = "viewport" content ="width=device-width, initial-scale=1.0">
         <link rel = "stylesheet" href = "css/style.css">
         <script src = "js/app.js" defer></script>
         <title>Reuben Renshaw</title>
+        <meta name="google" content="notranslate">
+        <meta name="color-scheme" content="light">
     </head>
     <body>
         <nav class = "sticky-nav">
             <ul>
-                <li><button type = "button">Reuben Renshaw</li>
-                <li><button type = "button">Home</button></li>
-                <li><a href = resources/Resume.pdf download><button type = "button">Resume</button></a></li>
-                    <button type = "button">Menu</button>
+                <li class = "brand">Reuben Renshaw</li>
+                <li><button class = "not-name" type = "button">Home</button></li>
+                <li>
+                    <a class = "nav-link not-name" href = "resources/Resume.pdf" download>Résumé</a>
+                </li>
+                <li class = "has-dropdown">
+                    <button class = "not-name" type = "button">Projects ▾</button>
                     <ul class = "dropdown">
-                        <li><button type = "button">Item 1</button></li>
-                        <li><button type = "button">Item 2</button></li>
-                        <li><button type = "button">It em 3</button></li>
+                        <li><button class = "not-name" type = "button">Mandarin Text to Anki Flashcard Deck</button></li></button></li>
+                        <li><button class = "not-name" type = "button">Neural Network From Scratch</button></li></button></li>
+                        <li><button class = "not-name" type = "button">Rasberry Pi Homelab and Jukebox</button></li></button></li>
                     </ul>
                 </li>
             </ul>
         </nav>
-        </nav>
-        <header style = "position: relative; height: 80px">
-            <h1>
-                Reuben Renshaw
-            </h1>
-            <a href = "https://www.linkedin.com/in/reuben-renshaw/" class = "LinkedIn-btn">LinkedIn</a>
-            <a href = "https://www.github.com/reubenrenshaw">Github</a>
+        <header class = "page-header">
+            <section class="intro-sec">
+                <div class="led-panel" id='panel1'></div>
+                <div class="led-panel" id='panel2'></div>
+                <script src="js/led-panel-vu.js" defer></script>
+                <div class="content">
+                    <img 
+                    src="resources/images/StreetFighterLogo.png"    
+                    alt="logo" 
+                    class="logo"
+                    >
+                </div> 
+            </section>
+            <div>
+                <audio id="audio-source" src="resources\beethoven.mp3" controls loop></audio>
+                <a class = "social-link" href = "https://www.linkedin.com/in/reuben-renshaw/" class = "LinkedIn-btn">LinkedIn</a>
+                <a class = "social-link" href = "https://www.github.com/reubenrenshaw">Github</a>
+            </div>
         </header>
   </body>
 </html>
