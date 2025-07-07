@@ -14,3 +14,5 @@ dist/
 # Private keys & env
 *.env
 **/serviceAccountKey.json
+
+pglite-debug.log
