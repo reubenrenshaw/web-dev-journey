@@ -58,17 +58,31 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── 2) VU-METER LOGIC ────────────────────────────────────────────────────
 
   // 2a) Create AudioContext + AnalyserNode
-  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  const analyser = audioCtx.createAnalyser();
-  analyser.fftSize = 256;               // smaller buffer = faster response
+  const ctx        = new (window.AudioContext || window.webkitAudioContext)();
+  const el         = document.getElementById('audio-source');
+  const src        = ctx.createMediaElementSource(el);
 
-  // 2b) Hook up all <audio> and <video> elements
-  document.querySelectorAll('audio, video').forEach(el => {
-    const srcNode = audioCtx.createMediaElementSource(el);
-    srcNode.connect(analyser);
+  // 2) Create an AnalyserNode for your VU meter
+  const analyser   = ctx.createAnalyser();
+  analyser.fftSize = 256;  // what you had before
+
+  // 3) Create a GainNode purely for muting output
+  const outputGain = ctx.createGain();
+
+  // 4) Wire up two parallel paths:
+  //    a) src → analyser       (for your visualization)
+  //    b) src → outputGain → ctx.destination   (for actual sound)
+  src.connect(analyser);
+  src.connect(outputGain);
+  outputGain.connect(ctx.destination);
+
+  // 5) Mute the output path
+  outputGain.gain.setValueAtTime(0, ctx.currentTime);
+
+  // 6) Resume AudioContext on user play gesture
+  el.addEventListener('play', () => {
+    if (ctx.state === 'suspended') ctx.resume();
   });
-  analyser.connect(audioCtx.destination); // so you still hear the sound
-
   // 2c) Prepare a buffer for waveform data
   const data = new Uint8Array(analyser.fftSize);
 
@@ -83,6 +97,13 @@ document.addEventListener('DOMContentLoaded', () => {
     return Math.sqrt(sumSq / (data.length / 50));
   }
 
+  const muteBtn = document.getElementById('mute-btn');
+  let isMuted = true; // we start silent
+  muteBtn.addEventListener('click', () => {
+    isMuted = !isMuted;
+    outputGain.gain.setValueAtTime(isMuted ? 0 : 1, ctx.currentTime);
+    muteBtn.textContent = isMuted ? '🔇' : '🔊';
+  });
 
 /*  const freqData = new Uint8Array(analyser.frequencyBinCount); // buffer for frequency bins
 

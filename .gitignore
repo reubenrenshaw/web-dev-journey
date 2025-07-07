@@ -1,3 +1,16 @@
 learning.css
 learning.html
 learning.js
+# Node deps
+node_modules/
+
+# Firebase local state
+.firebase/
+
+# Build outputs
+build/
+dist/
+
+# Private keys & env
+*.env
+**/serviceAccountKey.json

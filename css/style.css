@@ -118,6 +118,14 @@ h1 {
     --led-rows: 16;
 }
 
+#audio-source {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .intro-sec {
     width: 100%;
     height: 350px;
