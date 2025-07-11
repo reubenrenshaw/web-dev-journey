@@ -15,7 +15,7 @@
                 <li class = "brand">Reuben Renshaw</li>
                 <li><button class = "not-name" type = "button">Home</button></li>
                 <li>
-                    <a class = "nav-link not-name" href = "resources/Resume.pdf" download>Résumé</a>
+                    <a class = "nav-link not-name" href = "resources/Resume.pdf" download>Resume</a>
                 </li>
                 <li class = "has-dropdown">
                     <button class = "not-name" type = "button">Projects ▾</button>
@@ -42,10 +42,49 @@
             </section>
             <div>
                 <audio id="audio-source" src="/resources/beethoven.mp3" type="audio/mpeg" autoplay crossOrigin="anonymous" controls loop></audio>
-                <a class = "social-link" href = "https://www.linkedin.com/in/reuben-renshaw/" class = "LinkedIn-btn">LinkedIn</a>
-                <a class = "social-link" href = "https://www.github.com/reubenrenshaw">Github</a>
-                <button id="mute-btn">🔇</button>
+                <div class="links-and-licensing">
+                    <div class="social-links">
+                        <a class="social-link" href = "https://www.github.com/reubenrenshaw">Github</a>
+                        <a class="social-link" href = "https://www.linkedin.com/in/reuben-renshaw/">LinkedIn</a>
+                    </div>
+                    <div class="has-dropdown" style="color:#fff;">
+                        Licensing ▾
+                        <div class="dropdown"> 
+                            <p style="color: #fff">Moonlight Sonata – 3<sup>rd</sup> movement (Beethoven, 1801 · public domain). Recording by Gregor Quendel – <a href="https://www.classicals.de/beethoven-piano-sonatas">classicals.de</a>. Licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>. No changes except EQ/amp-sim.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="audio-controls">
+                    <button id="play-or-pause"></button>
+                    <button id="mute-btn">🔇</button>
+                </div>
+                    <script defer>
+                        const audio = document.getElementById('audio-source')
+                        const button = document.getElementById('play-or-pause')
+                        audio.addEventListener('play', updateButton);
+                        audio.addEventListener('pause', updateButton);
+                        function updateButton() {
+                            button.textContent = audio.paused
+                                ? '▶ Play'
+                                : '⏸ Pause';
+                        }
+                        button.addEventListener('click', async () => {
+                            if(audio.paused) {
+                                audio.play();
+                                button.textContent = '⏸ Pause';
+                            }
+                            else {
+                                audio.pause();
+                                button.textContent = '▶ Play';
+                            }
+                        });
+                        requestAnimationFrame(() => {
+                        requestAnimationFrame(updateButton);
+                        });
+                    </script>
             </div>
+            <img class="music-info" src="resources/images/New Project.png" alt="logo"></img>
+            <img class="project-section-header" src="resources/images/ProjectHeader.png" alt="logo"></img>
         </header>
   </body>
 </html>

@@ -1,4 +1,3 @@
-// combined-led-panel-vu.js
 class Panel {
   constructor(element, id) {
     this.element = element;
@@ -28,7 +27,6 @@ class Panel {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // ── 1) PANEL SETUP (unchanged) ───────────────────────────────────────────
   const panel1 = new Panel(document.getElementById('panel1'), 'panel1');
   const panel2 = new Panel(document.getElementById('panel2'), 'panel2');
   const COLS  = 32;
@@ -51,11 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
   buildPanel(panel1);
   buildPanel(panel2);
   
-  //buildPanel(panel2);
-  // build a ROW×COL array & append LEDs
-  //panel2.setLED(0, 0, on);
-
-  // ── 2) VU-METER LOGIC ────────────────────────────────────────────────────
 
   // 2a) Create AudioContext + AnalyserNode
   const ctx        = new (window.AudioContext || window.webkitAudioContext)();
@@ -94,124 +87,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const norm = (v - 128) / 128;     // map 0–255 → -1…+1
       sumSq += norm * norm;
     }
-    return Math.sqrt(sumSq / (data.length / 50));
+    return Math.sqrt(sumSq / (data.length / 40));
   }
 
   const muteBtn = document.getElementById('mute-btn');
   let isMuted = true; // we start silent
   muteBtn.addEventListener('click', () => {
+    ctx.resume()
     isMuted = !isMuted;
     outputGain.gain.setValueAtTime(isMuted ? 0 : 1, ctx.currentTime);
     muteBtn.textContent = isMuted ? '🔇' : '🔊';
   });
 
-/*  const freqData = new Uint8Array(analyser.frequencyBinCount); // buffer for frequency bins
-
-// replace your old drawVU with this:
-function drawVU() {
-  // 1) read waveform & frequency data every frame
-  analyser.getByteTimeDomainData(data);
-  analyser.getByteFrequencyData(freqData);
-
-  // 2) compute overall loudness (RMS)
-  let sumSq = 0;
-  for (let v of data) {
-    const norm = (v - 128) / 128;
-    sumSq += norm * norm;
-  }
-  let slider_volume = .5;
-  sumSq += slider_volume;
-  const amp = Math.sqrt(sumSq / data.length);  // 0…1
-
-  // 3) compute “bass level” by averaging the first few bins
-  const BASS_BINS = 1;  // adjust to taste
-  let bassSum = 0;
-  for (let i = 0; i < BASS_BINS; i++) bassSum += freqData[i];
-  const bassLvl = bassSum / (BASS_BINS * 255); // normalized 0…1
-
-  // 4) clear all LEDs
-  for (let y = 0; y < ROWS; y++) {
-    for (let x = 0; x < COLS; x++) {
-      setLED(x, y, false);
-    }
-  }
-
-  // 5) center‐weighted VU bars (unchanged)
-  const mid = (COLS - 1) / 2;
-  const exponent = 6;         // how sharp the center peak is
-  const globalGain = 2.0;     // make the center hit top more often
-
-  for (let x = 0; x < COLS; x++) {
-    const distNorm = Math.abs(x - mid) / mid;  
-    const weight   = Math.pow(1 - distNorm, exponent);
-    const boosted  = Math.min(1, amp * globalGain);
-    const localAmp = boosted * weight;
-    const litRows  = Math.round(localAmp * ROWS);
-
-    for (let row = ROWS - litRows; row < ROWS; row++) {
-      if (row >= 0) setLED(x, row, true);
-    }
-  }
-
-  // 6) on strong bass, sprinkle random sparks
-  //    the louder the bass, the more sparks
-  const maxSparks = 8;                         // max random LEDs
-  const numSparks = Math.round(bassLvl * maxSparks);
-  for (let i = 0; i < numSparks; i++) {
-    const randX = Math.floor(Math.random() * COLS);
-    const randY = Math.floor(Math.random() * ROWS);
-    setLED(randX, randY, true);
-  }
-
-  // 7) next frame
-  requestAnimationFrame(drawVU);
-} */
-/*
-function drawVU() {
-  const amp     = getAmplitude();        // 0…1 RMS from waveform
-  const mid     = (COLS - 1) / 2;        // center index (e.g. 31.5 if COLS=64)
-  const maxRows = ROWS;                  // number of LED rows
-
-  // Tweak these to taste:
-  const globalGain = 2.5;                // boosts overall amplitude before weighting
-  const exponent   = 5;                  // how sharply center peaks (higher = narrower)
-  const baseline   = 0.1;                // minimum weight at edges (0…1)
-
-  // 1) clear the panel
-  for (let y = 0; y < maxRows; y++) {
-    for (let x = 0; x < COLS; x++) {
-      setLED(x, y, false);
-    }
-  }
-
-  // 2) compute boosted amp once
-  const boosted = Math.min(1, amp * globalGain);
-
-  // 3) per-column fill
-  for (let x = 0; x < COLS; x++) {
-    // distance from center (0 at mid, 1 at edges)
-    const distNorm = Math.abs(x - mid) / mid;
-
-    // base weight: 1 at center → 0 at edges, with a sharp falloff
-    let weight = Math.pow(1 - distNorm, exponent);
-
-    // lift weight so edges aren’t zeroed out
-    weight = baseline + (1 - baseline) * weight;
-    // final local amplitude for this column
-    const localAmp = boosted * weight;
-
-    // how many rows to light here
-    const litRows = Math.round(localAmp * maxRows);
-
-    // light from the bottom up
-    for (let y = maxRows - litRows; y < maxRows; y++) {
-      if (y >= 0) setLED(x, y, true);
-    }
-  }
-
-  // 4) schedule next frame
-  requestAnimationFrame(drawVU);
-}*/
 function drawVU(panel) {
   const amp     = getAmplitude();      // 0…1 RMS
   const mid     = (COLS - 1) / 2;      // e.g. 31.5 for COLS=64
@@ -278,4 +165,5 @@ function drawVU(panel) {
   // 2f) Start on first user gesture (needed to enable AudioContext)
   drawVU(panel1);
   drawVU(panel2);
+  
 });
