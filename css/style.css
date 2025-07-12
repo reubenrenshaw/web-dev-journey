@@ -1,8 +1,48 @@
+html, body {
+  margin: 0;          /* remove the 8 px default gap */
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;  /* makes width math predictable everywhere */
+}
+
+/* Let the list wrap onto a second line if it runs out of room */
+
+/* Optional: shrink padding on very narrow screens */
+@media (max-width: 480px) {
+  .sticky-nav ul {
+    flex-wrap: wrap;        /* prevents side-ways overflow            */
+    justify-content: center;
+  }
+
+  .sticky-nav button,
+  .sticky-nav .nav-link,
+  .sticky-nav .brand {
+    padding: 1rem 0.75rem;   /* was 1.5 rem; trims 3 rem total width */
+  }
+
+  .logo {
+    padding-top: 2rem;
+  }
+
+  .led-panel {
+    padding-top: 2rem;
+  }
+
+  .logo {
+    max-width: 350px;
+    width: auto;
+  }
+}
+
 
 .logo {
     display: block;
     margin: 0 auto;
-    width: 400px;
+    max-width: 375px;
+    width: auto;
 }
 
 .sticky-nav {
@@ -26,6 +66,67 @@
 .sticky-nav li {
     position: relative
 }
+
+/* ---- colour tokens for easy tweaking ---- */
+:root {
+  --card-bg:    #1e1e1e;   /* panel background            */
+  --card-text:  #dcdcdc;   /* body text colour            */
+  --card-heading: #fff;    /* project title colour        */
+  --card-shadow: 0 4px 10px rgba(0,0,0,.45);
+}
+
+/* ---- card layout ---- */
+.project-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+
+  /* container-wide: just fill whatever width we’re given */
+  width: 100%;
+  padding: 1.5rem;
+
+  background: var(--card-bg);
+  color: var(--card-text);
+  border-radius: 1rem;
+  box-shadow: var(--card-shadow);
+}
+
+/* ---- image ---- */
+.project-img {
+  width: 40%;          /* fixed thumbnail */
+  height: 10%;
+  flex-shrink: 0;        /* never shrink the image */
+  border-radius: .5rem;
+  object-fit: cover;
+}
+
+/* ---- text ---- */
+.project-title {
+  margin: 0 0 .5rem;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--card-heading);
+}
+
+.project-description {
+  margin: 0;
+  line-height: 1.55;
+}
+
+/* ---- small screens ---- */
+@media (max-width: 600px) {
+  .project-card {
+    flex-direction: column; /* stack image over text */
+    text-align: center;
+  }
+  .project-img {
+    width: 100%;           /* image spans full card width */
+  }
+}
+
+
 
 .sticky-nav button,
 .sticky-nav .nav-link {
@@ -115,6 +216,8 @@
 
 .project-section-header {
     display: block;
+    max-width: 100%;
+    padding-top: 3rem;
     margin: 5rem auto;
     width: 400px;
 }
@@ -122,8 +225,13 @@
 .music-info {
     display: block;
     margin: 0 auto;
+    max-width: 100%;
     width: 400px;
 }
+
+
+
+
 
 .project-section {
     width: 100%;

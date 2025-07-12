@@ -91,13 +91,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const muteBtn = document.getElementById('mute-btn');
-  let isMuted = true; // we start silent
+  let isMuted = false; // we start silent
   muteBtn.addEventListener('click', () => {
     ctx.resume()
     isMuted = !isMuted;
     outputGain.gain.setValueAtTime(isMuted ? 0 : 1, ctx.currentTime);
     muteBtn.textContent = isMuted ? '🔇' : '🔊';
   });
+
+  outputGain.gain.setValueAtTime(isMuted ? 0 : 1, ctx.currentTime);
 
 function drawVU(panel) {
   const amp     = getAmplitude();      // 0…1 RMS

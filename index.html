@@ -13,16 +13,17 @@
         <nav class = "sticky-nav">
             <ul>
                 <li class = "brand">Reuben Renshaw</li>
-                <li><button class = "not-name" type = "button">Home</button></li>
+                <li><button data-target="panel1" class="not-name" type = "button">Home</button></li>
                 <li>
                     <a class = "nav-link not-name" href = "resources/Resume.pdf" download>Resume</a>
                 </li>
                 <li class = "has-dropdown">
                     <button class = "not-name" type = "button">Projects ▾</button>
                     <ul class = "dropdown">
-                        <li><button class = "not-name" type = "button">Mandarin Text to Anki Flashcard Deck</button></li></button></li>
-                        <li><button class = "not-name" type = "button">Neural Network From Scratch</button></li></button></li>
-                        <li><button class = "not-name" type = "button">Rasberry Pi Homelab and Jukebox</button></li></button></li>
+                        <li><button data-target="proj-anki" class = "not-name" type = "button">Mandarin Text to Anki Flashcard Deck</button></li></button></li>
+                        <li><button data-target="proj-pi" class = "not-name" type = "button">Rasberry Pi Home Lab and Jukebox</button></li></button></li>
+                        <li><button data-target="proj-data" class = "not-name" type = "button">Books Database Application</button></li></button></li>
+                        <li><button data-target="proj-web" class = "not-name" type = "button">Donation Website</button></li></button></li>
                     </ul>
                 </li>
             </ul>
@@ -56,7 +57,7 @@
                 </div>
                 <div class="audio-controls">
                     <button id="play-or-pause"></button>
-                    <button id="mute-btn">🔇</button>
+                    <button id="mute-btn">🔊</button>
                 </div>
                     <script defer>
                         const audio = document.getElementById('audio-source')
@@ -85,6 +86,85 @@
             </div>
             <img class="music-info" src="resources/images/New Project.png" alt="logo"></img>
             <img class="project-section-header" src="resources/images/ProjectHeader.png" alt="logo"></img>
+            <article id="proj-anki" class="project-card">
+                <img src="resources/images/Anki.png"
+                    alt="Screenshot of Project Name"
+                    class="project-img">
+                <div class="project-content">
+                    <h2 class="project-title">Mandarin Text to Anki Flashcard Deck</h2>
+                    <p class="project-description">
+                    This application automates the creation of Anki flashcard
+                    decks using CEDICT and the Deepl translation API. It is
+                    compatible with both simplified and traditional characters
+                    and employs multithreading with large texts. Texts are 
+                    inputed and the application creates Anki flashcard
+                    decks with all of the unique words contained within the
+                    chosen text.
+                    </p>
+                </div>
+            </article>
+            <article id="proj-pi" class="project-card">
+                <img src="resources/images/pi.jpg"
+                    alt="Screenshot of Raspberry Pi Home Lab"
+                    class="project-img">
+
+                <div class="project-content">
+                    <h2 class="project-title">Raspberry Pi Home Lab</h2>
+                    <p class="project-description">
+                    Built a self-hosted lab on a Raspberry Pi 5 that streams and records
+                    high-fidelity audio through an external DAC/ADC, runs Navidrome for
+                    on-the-fly music playback, and exposes a Samba share for household
+                    file storage.
+                    </p>
+                </div>
+            </article>
+
+            <!-- Books Database Application -->
+            <article id="proj-data" class="project-card">
+                <img src="resources/images/table.png"
+                    alt="Screenshot of Books Database Application"
+                    class="project-img">
+
+                <div class="project-content">
+                    <h2 class="project-title">Books Database Application</h2>
+                    <p class="project-description">
+                    Implemented a Goodreads-style platform backed by PostgreSQL and Python.
+                    Translated an EER model into 12 normalized tables, loaded 10 000 +
+                    book and review records, and exposed secure CRUD plus analytics
+                    procedures showcased in a departmental poster session.
+                    </p>
+                </div>
+            </article>
+
+            <!-- Donation Website Backend -->
+            <article id="proj-web" class="project-card">
+                <img src="resources/images/donation.png"
+                    alt="Screenshot of Donation Website Backend"
+                    class="project-img">
+
+                <div class="project-content">
+                    <h2 class="project-title">Donation Website</h2>
+                    <p class="project-description">
+                    Developed RESTful services with Spring Boot and integrated an Angular
+                    front-end for a charity donation site. Managed an Agile workflow for a
+                    four-member team and delivered secure donor and payment APIs on schedule.
+                    </p>
+                </div>
+            </article>
+            <script>
+                /* make every dropdown button scroll to its project */
+                document.querySelectorAll('button[data-target]')
+                        .forEach(btn => btn.addEventListener('click', () => {
+                const id = btn.dataset.target;
+                const el = document.getElementById(id);
+                if (!el) return;
+
+                /* smooth-scroll and centre the card */
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                /* optional: close the dropdown once we click */
+                }));
+            </script>
         </header>
   </body>
 </html>
